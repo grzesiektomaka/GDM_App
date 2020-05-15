@@ -1,14 +1,15 @@
 import React from 'react'
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
+import { withNavigation } from 'react-navigation'
 import womanImage from '../data/images/woman.png'
 
 
-const InitialScreen = () =>{
+const InitialScreen = ({navigation}) =>{
     return(
         <View style={styles.backgroundStyle}>
             <Text style={styles.headerTxt}>SweetBaby</Text>
             <Image source={womanImage}/>
-            <TouchableOpacity style={styles.startBtn}>
+            <TouchableOpacity style={styles.startBtn} onPress={() => navigation.navigate('Second')}>
                 <Text style={styles.startTxt}>START</Text>
             </TouchableOpacity>
         </View>
@@ -49,4 +50,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default InitialScreen
+export default withNavigation(InitialScreen)
