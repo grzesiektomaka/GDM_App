@@ -1,4 +1,4 @@
-const generalInfoScenario = [
+const ExercisesScenario = [
     {
       _id: 1,
       text: 'What is gestational diabetes ? ',
@@ -8,7 +8,7 @@ const generalInfoScenario = [
       },
     },
     {
-      _id: 3,
+      _id: 2,
       text: 'high blood sugar (glucose) that develops during pregnancy',
 
       user: {
@@ -19,4 +19,4 @@ const generalInfoScenario = [
     }
   ]
 
-export default generalInfoScenario
+export default ExercisesScenario

@@ -9,10 +9,11 @@ import arrow from '../data/images/arrow.png'
 
  
 class Conversation extends React.Component {
+  
   state = {
-    messages: [],
-    msgCounter: 0
-  }
+      messages: [],
+      msgCounter: 0,
+    }
 
   renderInputToolbar(){
       return(
@@ -25,7 +26,7 @@ class Conversation extends React.Component {
     this.onSend(this.props.scenario[this.state.msgCounter])
   }
 
-  renderBubble(props) {
+  renderBubble(props) { 
     return (
       <Bubble
         {...props}
@@ -55,13 +56,15 @@ class Conversation extends React.Component {
     this.setState({
         msgCounter: this.state.msgCounter + 1
     })
+
+    if(this.state.msgCounter >= this.props.scenario.length) {
+      this.props.startQuiz()
+    }
   }
+
  
   render() { 
-    // const {msgCounter} = this.state;
-    // if(msgCounter >= this.props.scenario.length) {
-    //   this.props.startQuiz()
-    // }
+
 
     return (
       <>
