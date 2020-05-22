@@ -4,9 +4,6 @@ import { GiftedChat } from 'react-native-gifted-chat'
 import NextBtn from '../components/NextBtn'
 import { Bubble } from 'react-native-gifted-chat'
 
-import arrow from '../data/images/arrow.png'
-
-
  
 class Conversation extends React.Component {
   

@@ -5,7 +5,7 @@ import award from '../data/images/award.png'
 import returnImg from '../data/images/return.png'
 
 
-const Header = ({points, modalControl, selectScreen}) => {
+const Header = ({resultPoints, maxPoints, modalControl, selectScreen}) => {
     return(
         <View style={styles.headerWrapper}>
             <TouchableOpacity onPress={() => selectScreen('menu')}>
@@ -18,7 +18,7 @@ const Header = ({points, modalControl, selectScreen}) => {
                 <TouchableOpacity>
                     <Text style={styles.logoText}>SweetBaby</Text>
                 </TouchableOpacity>
-                <Text style={styles.pointsText}>{`${points} / 70`}</Text>
+                <Text style={styles.pointsText}>{`${resultPoints} / ${maxPoints}`}</Text>
             </View>
             <TouchableOpacity onPress={modalControl}>
                 <Image 

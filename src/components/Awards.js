@@ -7,17 +7,45 @@ import generalAward from '../data/images/generalAward.png'
 import trophy from '../data/images/trophy.png'
 
 
-const Awards = () =>{
+const Awards = ({
+    dietDisabled, 
+    exercisesDisabled, 
+    allUnlocked, 
+    maxPointsGeneral,
+    generalPoints,
+    maxPointsExercises,
+    exercisesPoints,
+    maxPointsDiet,
+    dietPoints
+}) =>{
     return(
         <View style={styles.awardWrapper}>
-            <Image source={mainAward} />
-            <Text style={styles.momBadge}>Healthy mom badge</Text>
+            <Image source={mainAward} style={allUnlocked ? styles.awardDisabled : styles.awardWon } />
+            <Text style={[styles.momBadge, allUnlocked ? styles.awardDisabled : styles.awardWon]}>Healthy mom badge</Text>
             <View style={styles.awardOptionsWrapper}>
-                <AwardItem points={12} maxPoints={20} title={'Diet'} logoImg={trophy}/>
+                <AwardItem 
+                    points={dietPoints} 
+                    maxPoints={maxPointsDiet} 
+                    title={'Diet'} 
+                    logoImg={trophy} 
+                    disabled={exercisesDisabled}
+                />
                 <View style={styles.divider}/>
-                <AwardItem points={12} maxPoints={30} title={'General \nInformation'} logoImg={generalAward}/>
+                <AwardItem 
+                    points={generalPoints} 
+                    maxPoints={maxPointsGeneral} 
+                    title={'General \nInformation'} 
+                    logoImg={generalAward}
+                    disabled={dietDisabled}
+                />
                 <View style={styles.divider}/>
-                <AwardItem points={12} maxPoints={20} title={'Exercises'} logoImg={trophy}/>
+                <AwardItem 
+                    points={exercisesPoints} 
+                    maxPoints={maxPointsExercises} 
+                    title={'Exercises'} 
+                    logoImg={trophy}
+                    disabled={allUnlocked}
+                />
             </View>
         </View>
     );
@@ -56,6 +84,12 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: '#242424',
         marginVertical: 15
+    }, 
+    awardDisabled: {
+        opacity: 0.2
+    },
+    awardWon: {
+        opacity: 1
     }
 });
 

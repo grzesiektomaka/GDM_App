@@ -7,16 +7,21 @@ import generalInfo from '../data/images/information.png'
 import exercises from '../data/images/exercises.png'
 import drug from '../data/images/drug.png'
 import yogablack from '../data/images/yogablack.png'
+import { max } from 'react-native-reanimated'
  
 const Menu = ({
             selectScreen, 
             dietDisabled, 
             exercisesDisabled, 
+            sportsListDisabled,
             showAlert, 
             maxPointsGeneral, 
             generalPoints,
             maxPointsExercises,
-            exercisesPoints}) => {
+            maxPointsDiet,
+            dietPoints,
+            exercisesPoints,
+            showMedicineReminder}) => {
 
     const handleDiet = () =>{
         if(dietDisabled != true){
@@ -34,29 +39,40 @@ const Menu = ({
         }
     }
 
+    const handleSports = () =>{
+        if(sportsListDisabled != true){
+            selectScreen('sports')
+        }else{
+            showAlert()
+        }
+    }
+
     return(
         <View style={styles.menuWrapper}>
             <Text style={styles.menuHeader}>What do you want to ask for ?</Text>
             <View style={styles.menuOptionsWrapper}>
-                <TouchableOpacity  onPress={() => handleDiet()} >
-                    <MenuItem points={12} maxPoints={20} title={'Diet'} logoImg={diet}/>
+                <TouchableOpacity  onPress={() => handleDiet()} style={dietDisabled ? styles.menuOptionDisabled : styles.menuOptionNormal } >
+                    <MenuItem points={dietPoints} maxPoints={maxPointsDiet} title={'Diet'} logoImg={diet}/>
                 </TouchableOpacity>
                 <View style={styles.divider}/>
                 <TouchableOpacity onPress={() => selectScreen('general')} >
                     <MenuItem points={generalPoints} maxPoints={maxPointsGeneral} title={'General \nInformation'} logoImg={generalInfo}/>
                 </TouchableOpacity>
                 <View style={styles.divider}/>
-                <TouchableOpacity onPress={() => handleExercise()}>
+                <TouchableOpacity onPress={() => handleExercise()} style={exercisesDisabled ? styles.menuOptionDisabled : styles.menuOptionNormal }>
                     <MenuItem points={exercisesPoints} maxPoints={maxPointsExercises} title={'Exercises'} logoImg={exercises}/>
                 </TouchableOpacity>
             </View>
             <View style={styles.btnWrapper}>
-                <TouchableOpacity style={styles.btnExercises}>
+                <TouchableOpacity 
+                    style={[styles.btnExercises, sportsListDisabled ? styles.menuOptionDisabled : styles.menuOptionNormal]}
+                    onPress={() => handleSports()}    
+                >
                     <Image source={yogablack}/>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.btnReminder}>
+                {/* <TouchableOpacity style={styles.btnReminder} onPress={showMedicineReminder}>
                     <Image source={drug}/>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
             </View>
         </View>
     )
@@ -64,7 +80,7 @@ const Menu = ({
 
 const styles = StyleSheet.create({
     menuWrapper: {
-        marginTop: 50,
+        marginTop: 40,
         marginHorizontal: 15
     },
     menuOptionsWrapper: {
@@ -126,6 +142,12 @@ const styles = StyleSheet.create({
         alignSelf: 'flex-end',
         marginRight: 40,
         marginTop: 80
+    },
+    menuOptionDisabled: {
+        opacity: 0.65
+    },
+    menuOptionNormal: {
+        opacity: 1
     }
 });
 

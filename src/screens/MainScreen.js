@@ -1,6 +1,6 @@
 import React from 'react'
+import { View, StyleSheet, Text, AsyncStorage } from 'react-native'
 import Conversation from '../components/Conversation'
-import { View, StyleSheet, Text } from 'react-native'
 import Menu from '../components/Menu'
 import Header from '../components/Header'
 import { withNavigation } from 'react-navigation'
@@ -9,12 +9,15 @@ import Award from '../components/Awards'
 import Modal from 'react-native-modal'
 import Quiz from '../components/Quiz/Quiz'
 import LockedAlert from '../components/LockedAlert'
+import SportList from '../components/SportsList/SportsList'
+import DietInfo from '../components/Diet/DietInfo'
 
 import generalInfoScenario from '../data/scenarios/GeneralInfoScenario'
 import exercisesScenario from '../data/scenarios/ExercisesScenario'
 import AwardItem from '../components/AwardItem'
 import generalInfoQuiz from '../data/quizes/GeneralInfoQuiz'
 import exercisesQuiz from '../data/quizes/ExercisesQuiz'
+import dietQuiz from '../data/quizes/DietQuiz'
 
  
 class MainScreen extends React.Component {
@@ -27,11 +30,44 @@ class MainScreen extends React.Component {
     generalPoints: 0,
     maxPointsExercises: exercisesQuiz.length * 5,
     exercisesPoints: 0,
+    maxPointsDiet: dietQuiz.length * 5,
+    dietPoints: 0,
     dietDisabled: true,
-    exercisesDisabled: false,
+    exercisesDisabled: true,
+    sportsListDisabled: true,
     lockedAlert: false,
+    medicineReminder: false
   }; 
+ 
+  // componentDidMount(){
+  //   this._retrieveData()
+  // }
 
+  // _storeData = async () => {
+  //   try {
+  //     await AsyncStorage.setItem('@general_points', this.state.generalPoints.toString())
+  //     // await AsyncStorage.setItem('@diet_points', this.state.dietPoints.toString())
+  //     // await AsyncStorage.setItem('@exercises_points', this.state.exercisesPoints.toString())
+  //   } catch (e) {
+  //       console.log(e)
+  //   }
+  // }
+
+  // _retrieveData = async () => {
+  //   try {
+  //     const general = await AsyncStorage.getItem('@general_points')
+  //     // const diet = await AsyncStorage.getItem('@diet_points')
+  //     // const exercises = await AsyncStorage.getItem('@exercises_points')
+  //     if(general !== null) {
+  //       this.setState({generalPoints: parseInt(general)})
+        
+  //     }else{
+  //     }
+  //   } catch(e) {
+  //     console.log(e)
+  //   }
+  // }
+ 
   toggleModal = () => {
     this.setState({awardModal: !this.state.awardModal});
   };
@@ -54,11 +90,28 @@ class MainScreen extends React.Component {
 
   getResultGeneral = (pt) =>{
     this.setState({generalPoints: pt})
+    pt >= this.state.maxPointsGeneral * 0.5 ? 
+    this.setState({dietDisabled: false}) :
+    this.setState({dietDisabled: true})
+    this._storeData()
   }
 
   getResultExercises = (pt) =>{
     this.setState({exercisesPoints: pt})
+    pt >= this.state.maxPointsExercises * 0.5 ? 
+    this.setState({sportsListDisabled: false}) :
+    this.setState({sportsListDisabled: true})
+    this._storeData()
   }
+
+  getResultDiet = (pt) =>{
+    this.setState({dietPoints: pt})
+    pt >= this.state.maxPointsDiet * 0.5 ? 
+    this.setState({exercisesDisabled: false}) :
+    this.setState({exercisesDisabled: true})
+    this._storeData()
+  }
+ 
  
   
   render() { 
@@ -67,22 +120,30 @@ class MainScreen extends React.Component {
     const {
       screen, 
       quizModal, 
-      awardModal, 
+      awardModal,  
       maxPointsGeneral, 
       generalPoints,
       maxPointsExercises,
       exercisesPoints,
+      maxPointsDiet,
+      dietPoints,
       dietDisabled, 
       exercisesDisabled,
-      lockedAlert
+      sportsListDisabled,
+      lockedAlert,
+      medicineReminder
     } = this.state
 
-    console.log(generalPoints)
+    let res = generalPoints + dietPoints + exercisesPoints
+    let max = maxPointsExercises + maxPointsGeneral + maxPointsDiet
+
+    // console.log(generalPoints)
 
     return (
       <View style={styles.wrapper}>
           <Header 
-            points={36} 
+            resultPoints={res} 
+            maxPoints={max}
             modalControl={this.toggleModal}
             selectScreen={this.selectScreen}
           />
@@ -92,11 +153,15 @@ class MainScreen extends React.Component {
               selectScreen={this.selectScreen} 
               dietDisabled={dietDisabled}
               exercisesDisabled={exercisesDisabled}
+              sportsListDisabled={sportsListDisabled}
               maxPointsGeneral={maxPointsGeneral}
               generalPoints={generalPoints}
               maxPointsExercises={maxPointsExercises}
               exercisesPoints={exercisesPoints}
+              maxPointsDiet={maxPointsDiet}
+              dietPoints={dietPoints}
               showAlert={() => this.setState({lockedAlert: true})}
+              showMedicineReminder={() => this.setState({medicineReminder: true})}
             />
           }
           { screen == 'general' &&
@@ -105,12 +170,19 @@ class MainScreen extends React.Component {
               startQuiz={this.startQuiz}
             />
           }
+          { screen == 'diet' &&
+            <DietInfo startQuiz={this.startQuiz}/>
+          }
           {
             screen == 'exercises' && 
             <Conversation
               scenario={exercisesScenario}
               startQuiz={this.startQuiz}
             />
+          }
+          {
+            screen == 'sports' && 
+            <SportList />
           }
           <Modal 
             isVisible={quizModal} 
@@ -124,6 +196,16 @@ class MainScreen extends React.Component {
                 quiz={generalInfoQuiz} 
                 maxPoints={maxPointsGeneral}
                 getResult={(pt) => this.getResultGeneral(pt)}
+                closeQuiz={() => this.closeQuiz()}
+                selectScreen={this.selectScreen}
+              />
+            }
+            { screen == 'diet' && 
+              <Quiz 
+                quizName={screen} 
+                quiz={dietQuiz} 
+                maxPoints={maxPointsDiet}
+                getResult={(pt) => this.getResultDiet(pt)}
                 closeQuiz={() => this.closeQuiz()}
                 selectScreen={this.selectScreen}
               />
@@ -145,13 +227,31 @@ class MainScreen extends React.Component {
             swipeDirection = {['up', 'down']}
             onSwipeComplete = {() => this.toggleModal()}
           >
-            <Award /> 
+            <Award              
+              dietDisabled={dietDisabled}
+              exercisesDisabled={exercisesDisabled}
+              allUnlocked={sportsListDisabled}
+              maxPointsGeneral={maxPointsGeneral}
+              generalPoints={generalPoints}
+              maxPointsExercises={maxPointsExercises}
+              exercisesPoints={exercisesPoints}
+              maxPointsDiet={maxPointsDiet}
+              dietPoints={dietPoints}
+            /> 
           </Modal>
           <Modal
-                isVisible={lockedAlert} 
+                isVisible={lockedAlert}  
                 backdropOpacity={0.5} 
                 swipeDirection = {['up', 'down']} 
                 onSwipeComplete = {() => this.setState({lockedAlert: false})}
+            >
+             <LockedAlert closeHandle={() => this.setState({lockedAlert: false})} />
+          </Modal>
+          <Modal
+                isVisible={medicineReminder}  
+                backdropOpacity={0.5} 
+                swipeDirection = {['up', 'down']} 
+                onSwipeComplete = {() => this.setState({medicineReminder: false})}
             >
              <LockedAlert closeHandle={() => this.setState({lockedAlert: false})} />
           </Modal>

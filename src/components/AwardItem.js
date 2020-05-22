@@ -2,9 +2,9 @@ import React from 'react'
 import { View, Image, StyleSheet, Text} from 'react-native'
 
 
-const AwardItem = ({points, maxPoints, title, logoImg}) => {
+const AwardItem = ({points, maxPoints, title, logoImg, disabled}) => {
     return(
-        <View style={styles.itemWrapper}>
+        <View style={[styles.itemWrapper, disabled ? styles.awardDisabled : styles.awardWon]}>
             <Text style={styles.pointsCounter}>{`${points} / ${maxPoints}`}</Text>
             <Image
                 style={styles.awardLogo}
@@ -36,6 +36,12 @@ const styles = StyleSheet.create({
     }, 
     awardLogo: {
         alignSelf: 'center'
+    },
+    awardDisabled: {
+        opacity: 0.2
+    },
+    awardWon: {
+        opacity: 1
     }
 });
 

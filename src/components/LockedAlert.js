@@ -7,7 +7,7 @@ const LockedAlert = ({closeHandle}) => {
     return(
         <View style={styles.lockedAlertWrapper}>
             <Text style={styles.exclamationTxt}>!</Text>
-            <Text style={styles.alertText}>You have not unlocked this chapter yet ! </Text>
+            <Text style={styles.alertText}>You have not unlocked this part yet ! </Text>
             <AlertBtn btnText={'CLOSE'} btnAction={closeHandle}/>
         </View>
     )
