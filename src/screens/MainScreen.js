@@ -93,7 +93,7 @@ class MainScreen extends React.Component {
     pt >= this.state.maxPointsGeneral * 0.5 ? 
     this.setState({dietDisabled: false}) :
     this.setState({dietDisabled: true})
-    this._storeData()
+    // this._storeData()
   }
 
   getResultExercises = (pt) =>{
@@ -101,7 +101,7 @@ class MainScreen extends React.Component {
     pt >= this.state.maxPointsExercises * 0.5 ? 
     this.setState({sportsListDisabled: false}) :
     this.setState({sportsListDisabled: true})
-    this._storeData()
+    // this._storeData()
   }
 
   getResultDiet = (pt) =>{
@@ -109,7 +109,7 @@ class MainScreen extends React.Component {
     pt >= this.state.maxPointsDiet * 0.5 ? 
     this.setState({exercisesDisabled: false}) :
     this.setState({exercisesDisabled: true})
-    this._storeData()
+    // this._storeData()
   }
  
  
@@ -264,7 +264,7 @@ class MainScreen extends React.Component {
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1
-  },
+  }, 
 });
 
 export default withNavigation(MainScreen)

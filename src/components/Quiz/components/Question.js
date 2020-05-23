@@ -35,8 +35,8 @@ const Question = ({quiz, nextQuestion, getPoints}) => {
                 <CheckBox
                     disabled={false}
                     value={a1}
-                    onCheckColor={'#7D61EC'}
-                    boxType={'circle'}
+                    // onCheckColor={'#7D61EC'}
+                    // boxType={'circle'}
                     onChange={() => a1 ? 
                         setAnswer(answer.filter(a => a !== 'a1')) : 
                         setAnswer(oldArray => [...oldArray, 'a1']) }
@@ -48,8 +48,8 @@ const Question = ({quiz, nextQuestion, getPoints}) => {
                 <CheckBox
                     disabled={false}
                     value={a2}
-                    onCheckColor={'#7D61EC'}
-                    boxType={'circle'}
+                    // onCheckColor={'#7D61EC'}
+                    // boxType={'circle'}
                     onChange={() => a2 ? 
                         setAnswer(answer.filter(a => a !== 'a2')) : 
                         setAnswer(oldArray => [...oldArray, 'a2']) }
@@ -61,8 +61,8 @@ const Question = ({quiz, nextQuestion, getPoints}) => {
                 <CheckBox
                     disabled={false}
                     value={a3}
-                    onCheckColor={'#7D61EC'}
-                    boxType={'circle'}
+                    // onCheckColor={'#7D61EC'}
+                    // boxType={'circle'}
                     onChange={() => a3 ? 
                         setAnswer(answer.filter(a => a !== 'a3')) : 
                         setAnswer(oldArray => [...oldArray, 'a3']) }
@@ -74,8 +74,8 @@ const Question = ({quiz, nextQuestion, getPoints}) => {
                 <CheckBox
                     disabled={false}
                     value={a4}
-                    onCheckColor={'#7D61EC'}
-                    boxType={'circle'}
+                    // onCheckColor={'#7D61EC'}
+                    // boxType={'circle'}
                     onChange={() => a4 ? 
                         setAnswer(answer.filter(a => a !== 'a4')) : 
                         setAnswer(oldArray => [...oldArray, 'a4']) }
